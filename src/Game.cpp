@@ -28,7 +28,7 @@ void Game::gameInit()
 	m_objects["tankobj"] = std::make_shared<StaticObject>();
 	m_objects["tankobj"].get()->setModel(tank);
 	m_objects["tankobj"].get()->setShader("tankShader");
-	m_objects["tankobj"].get()->setPosition(glm::vec3(0.0f,0.0f,-5.0f));
+	//m_objects["tankobj"].get()->setPosition(glm::vec3(0.0f,0.0f,-5.0f));
 	RenderManger::addToRenderList(m_objects["tankobj"].get());
 	//object.setModel();
 
