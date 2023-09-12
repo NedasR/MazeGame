@@ -86,3 +86,8 @@ void mousePostioncallback(GLFWwindow* window)
 	camera = nullptr;
 	delete camera;
 }
+
+void mouseClickCallback(GLFWwindow* window)
+{
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+}

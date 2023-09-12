@@ -35,3 +35,4 @@ class Camera
 };
 
 void mousePostioncallback(GLFWwindow* window);
+void mouseClickCallback(GLFWwindow* window);
