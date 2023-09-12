@@ -8,6 +8,7 @@ void Game::gameInit()
 {
 	glfwSetWindowUserPointer(m_window, &m_camera);
 	glfwSetCursorPosCallback(m_window, (GLFWcursorposfun)mousePostioncallback);
+	glfwSetMouseButtonCallback(m_window, (GLFWmousebuttonfun)mouseClickCallback);
 
 	// settings 
 
@@ -81,6 +82,11 @@ void Game::gameLoop()
 
 	while (!glfwWindowShouldClose(m_window))
 	{
+		if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		{
+			glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		}
+
 		//Game logic update stuff like controls
 		update();
 
