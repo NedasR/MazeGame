@@ -24,11 +24,11 @@ void Game::gameInit()
 	m_shaders["tankShader"].get()->setTexture(0, "CubeTex");
 
 	//Model loading here since it is the init
-	Model tank("res/Models/tank.obj");
+	static Model tank("res/Models/tank.obj");
 	m_objects["tankobj"] = std::make_shared<StaticObject>();
 	m_objects["tankobj"].get()->setModel(tank);
 	m_objects["tankobj"].get()->setShader("tankShader");
-	//m_objects["tankobj"].get()->setPosition(glm::vec3(0.0f,0.0f,-5.0f));
+	m_objects["tankobj"].get()->setPosition(glm::vec3(0.0f,0.0f,-5.0f));
 	RenderManger::addToRenderList(m_objects["tankobj"].get());
 	//object.setModel();
 
@@ -97,9 +97,9 @@ void Game::render()
 	//Render here
 	for ( auto& Object : RenderManger::m_renderList)
 	{
-		Object->draw();
 		Object->updateTransform();
 		Object->updateMVP(m_shaders["tankShader"].get(), m_perspective, m_cameraView);
+		Object->draw();
 	}
 	
 	glfwSwapBuffers(m_window);
