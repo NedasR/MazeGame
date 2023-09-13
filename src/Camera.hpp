@@ -2,6 +2,7 @@
 #include "Vendors/glm/glm.hpp"
 #include "Vendors/glm/gtc/matrix_transform.hpp"
 #include "Vendors/glm/gtc/type_ptr.hpp"
+
 #include <GLFW/glfw3.h>
 
 class GLFWwindow;

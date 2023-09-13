@@ -28,7 +28,7 @@ class StaticObject : public Object
 
 	inline void setModel(Model& model) { m_modelMesh = &model;}
 
-	void setRotation(glm::vec3& rotateAxis, float angle);
+	void setRotation(glm::vec3 rotateAxis, float angle);
 
 	void setPosition(glm::vec3 Pos);
 

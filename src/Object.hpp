@@ -18,7 +18,7 @@ public:
 	virtual void draw() = 0;
 	virtual void draw(Shader* shader) = 0;
 	virtual void setModel(Model& model) = 0;
-	virtual void setRotation(glm::vec3& rotateAxis, float angle) = 0;
+	virtual void setRotation(glm::vec3 rotateAxis, float angle) = 0;
 	virtual void setPosition(glm::vec3 Pos) = 0;
 	virtual void setScale(glm::vec3& scale) = 0;
 	virtual void setShader(const std::string& shaderIndex) = 0;

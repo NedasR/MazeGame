@@ -4,6 +4,17 @@
 std::map<std::string, std::shared_ptr<Shader>> Game::m_shaders;
 std::map<std::string, std::shared_ptr<Texture>> Game::m_textures;
 
+char map[10][10] = { '#', '#', '#', '#', '#', '#', '#', '#', '#', '#',
+					 '0', '0', '0', '#', '0', '0', '0', '#', '#', '#',
+					 '#', '#', '0', '#', '#', '#', '0', '#', '0', '#',
+					 '#', '#', '0', '#', '0', '0', '0', '0', '0', '#',
+					 '#', '#', '0', '#', '0', '0', '#', '#', '0', '#',
+					 '#', '0', '0', '0', '0', '0', '#', '#', '0', '#',
+					 '#', '#', '0', '#', '#', '0', '#', '0', '0', '#',
+					 '#', '#', '0', '#', '#', '0', '0', '#', '0', '#',
+					 '#', '0', '0', '0', '0', '#', '#', '#', '0', '0',
+					 '#', '#', '#', '#', '#', '#', '#', '#', '#', '#' };
+
 void Game::gameInit()
 {
 	glfwSetWindowUserPointer(m_window, &m_camera);
@@ -29,9 +40,40 @@ void Game::gameInit()
 	m_objects["tankobj"] = std::make_shared<StaticObject>();
 	m_objects["tankobj"].get()->setModel(tank);
 	m_objects["tankobj"].get()->setShader("tankShader");
-	m_objects["tankobj"].get()->setPosition(glm::vec3(0.0f,0.0f,-5.0f));
+	m_objects["tankobj"].get()->setPosition(glm::vec3(0.0f,0.0f,-56.0f));
 	RenderManger::addToRenderList(m_objects["tankobj"].get());
+
+	static Model cube("res/Models/cube.obj");
+	/*
+	m_objects["cubeObj"] = std::make_shared<StaticObject>();
+	m_objects["cubeObj"].get()->setModel(cube);
+	m_objects["cubeObj"].get()->setShader("tankShader");
+	m_objects["cubeObj"].get()->setPosition(glm::vec3(0.0f, 0.0f, -10.0f));
+	RenderManger::addToRenderList(m_objects["cubeObj"].get());
+	*/
+	
+	for (int i = 0; i < 10; i++)
+	{	
+		for (int y = 0; y < 10; y++)
+		{
+			if (map[i][y] == '#')
+			// memory leak
+			{
+				StaticObject* sobj = new StaticObject();
+				sobj->setModel(cube);
+				sobj->setShader("tankShader");
+				sobj->setPosition(glm::vec3(2.0f * i, 0.0f, 2.0f * y));
+				//sobj->setRotation(glm::vec3(0.0f, 1.0f, 0.0f), 35.0f);
+				RenderManger::addToRenderList(sobj);
+			}
+		}
+	}
+	
+
 	//object.setModel();
+
+
+
 
 	// bool stuff
 }
@@ -140,4 +182,22 @@ void Game::cameraUpdate(const CameraMode mode)
 void Game::update()
 {
 	cameraUpdate(CameraMode::FREECAM);
+}
+
+bool Game::isInsideMazeWalls(glm::vec3 pos)
+{
+	pos.x += 1.0f;
+	pos.z += 1.0f;
+	pos.x /= 2.0f;
+	pos.z /= 2.0f;
+	int x = pos.x;
+	int z = pos.z;
+
+	if (map[x][z] == '#')
+	{
+		return true;
+	}
+
+
+	return false;
 }

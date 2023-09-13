@@ -9,14 +9,14 @@ void StaticObject::draw(Shader* shader)
 	m_modelMesh->draw(shader);
 }
 
-void StaticObject::setRotation(glm::vec3& rotateAxis, float angle)
+void StaticObject::setRotation(glm::vec3 rotateAxis, float angle)
 {
 	m_rotation = glm::rotate(glm::mat4(1.0f), angle, rotateAxis);
 }
 
 void StaticObject::setPosition(glm::vec3 Pos)
 {
-	m_translate = glm::translate(glm::mat4(1.0f), m_position);
+	m_translate = glm::translate(glm::mat4(1.0f), Pos);
 }
 
 void StaticObject::setScale(glm::vec3& scale)

@@ -1,5 +1,43 @@
 #include "Camera.hpp"
 #include <math.h>
+char map2[10][10] = { '#', '#', '#', '#', '#', '#', '#', '#', '#', '#',
+					 '0', '0', '0', '#', '0', '0', '0', '#', '#', '#',
+					 '#', '#', '0', '#', '#', '#', '0', '#', '0', '#',
+					 '#', '#', '0', '#', '0', '0', '0', '0', '0', '#',
+					 '#', '#', '0', '#', '0', '0', '#', '#', '0', '#',
+					 '#', '0', '0', '0', '0', '0', '#', '#', '0', '#',
+					 '#', '#', '0', '#', '#', '0', '#', '0', '0', '#',
+					 '#', '#', '0', '#', '#', '0', '0', '#', '0', '#',
+					 '#', '0', '0', '0', '0', '#', '#', '#', '0', '0',
+					 '#', '#', '#', '#', '#', '#', '#', '#', '#', '#' };
+
+bool isInsideMazeWalls(glm::vec3 pos)
+{
+	pos.x += 1.0f;
+	pos.z += 1.0f;
+	pos.x /= 2.0f;
+	pos.z /= 2.0f;
+	int x = pos.x;
+	int z = pos.z;
+
+	if (pos.y < -1 || pos.y > 1)
+	{
+		return false;
+	}
+
+	if (x < 0 || x >= 10 || z < 0 ||z >= 10)
+	{
+		return false;
+	}
+
+	if (map2[x][z] == '#')
+	{
+		return true;
+	}
+
+
+	return false;
+}
 
 Camera::Camera()
 {
@@ -7,7 +45,7 @@ Camera::Camera()
 	m_pitch  = 0.0f;
 	m_sensitivity = 0.1f;
 	m_firstMouse = true;
-	m_cameraPostion = glm::vec3(0.0f, 0.0f, 0.0f);
+	m_cameraPostion = glm::vec3(0.0f, 0.0f, -5.0f);
 	m_upPos = glm::vec3(0.0f, 1.0f, 0.0f);
 }
 
@@ -53,6 +91,8 @@ void Camera::setSensitivity(float sensitivity)
 
 glm::mat4 Camera::freeCam(GLFWwindow* window)
 {
+	glm::vec3 lastPos = m_cameraPostion;
+
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
 		m_cameraPostion += m_sensitivity * m_cameraFront;
@@ -69,6 +109,16 @@ glm::mat4 Camera::freeCam(GLFWwindow* window)
 	{
 		m_cameraPostion -= glm::normalize(glm::cross(m_cameraFront, glm::vec3(0.0f, 1.0f, 0.0f))) * m_sensitivity;
 	}
+
+	glm::vec3 arrow = m_cameraPostion - lastPos;
+	glm::vec3 point = m_cameraPostion + arrow * 3.0f;
+
+	if (isInsideMazeWalls(point))
+	{
+		m_cameraPostion = lastPos;
+	}
+	m_cameraPostion.y = lastPos.y;
+
 	return glm::lookAt(m_cameraPostion, m_cameraPostion + m_cameraFront, m_upPos);
 }
 

@@ -30,7 +30,6 @@ class Game
 	Camera m_camera;
 	glm::mat4 m_cameraView;
 	glm::mat4 m_perspective;
-
 	bool m_updatePerspective;
 
 
@@ -52,5 +51,5 @@ class Game
 
 	void update();
 	
-
+	static bool isInsideMazeWalls(glm::vec3 pos);
 };
