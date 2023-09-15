@@ -67,6 +67,7 @@ void Mesh::drawElements(Shader* shader)
 {
 	GLCALL(glBindVertexArray(VAO));
 	shader->BindShader();
+	shader->bindTextures();
 	GLCALL(glDrawElements(GL_TRIANGLES, static_cast<unsigned int>(m_indices.size()), GL_UNSIGNED_INT, nullptr));
 	GLCALL(glBindVertexArray(0));
 }

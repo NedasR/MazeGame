@@ -11,6 +11,7 @@
 #include "Texture.hpp"
 #include "Shader.hpp"
 #include "StaticObject.hpp"
+#include "Projectile.hpp"
 
 enum class CameraMode
 {
@@ -28,6 +29,7 @@ class Game
 
 	GLFWwindow* m_window;
 	Camera m_camera;
+	Projectile m_projectiles;
 	glm::mat4 m_cameraView;
 	glm::mat4 m_perspective;
 	bool m_updatePerspective;
@@ -52,4 +54,13 @@ class Game
 	void update();
 	
 	static bool isInsideMazeWalls(glm::vec3 pos);
+
 };
+
+/*
+to do list
+projectiles
+minmap
+mobs
+patrol route ai
+*/

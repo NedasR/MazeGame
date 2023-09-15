@@ -32,11 +32,15 @@ class StaticObject : public Object
 
 	void setPosition(glm::vec3 Pos);
 
-	void setScale(glm::vec3& scale);
+	void setScale(glm::vec3 scale);
 
 	void setShader(const std::string& shaderIndex);
 
 	void setShader(const std::string& shaderIndex,std::map<std::string, std::shared_ptr<Shader>>& shaderList);
 
+	glm::vec3 getPosition();
+
 	void updateTransform();
+
+	void updateMVP(glm::mat4 prespective, glm::mat4 view);
 };

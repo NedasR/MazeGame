@@ -9,6 +9,8 @@ class RenderManger
 
 	static std::vector<StaticObject*> m_renderList;
 
+	static std::vector<StaticObject*> m_renderListProjectiles;
+
 	RenderManger();
 
 	static void addToRenderList(StaticObject* object);

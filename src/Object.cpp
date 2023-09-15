@@ -1,6 +1,6 @@
 #include "Object.hpp"
 
-void Object::updateMVP(Shader* shader, glm::mat4 prespective, glm::mat4 view)
+void Object::updateMVP(glm::mat4 prespective, glm::mat4 view, Shader* shader)
 {
     shader->BindShader();
     shader->setUniformvmatrix4f("model", m_transform);

@@ -140,6 +140,7 @@
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Object.cpp" />
+    <ClCompile Include="src\Projectile.cpp" />
     <ClCompile Include="src\Render.cpp" />
     <ClCompile Include="src\RenderManger.cpp" />
     <ClCompile Include="src\Shader.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="src\Mesh.hpp" />
     <ClInclude Include="src\Model.hpp" />
     <ClInclude Include="src\Object.hpp" />
+    <ClInclude Include="src\Projectile.hpp" />
     <ClInclude Include="src\Render.hpp" />
     <ClInclude Include="src\RenderManger.hpp" />
     <ClInclude Include="src\Shader.hpp" />

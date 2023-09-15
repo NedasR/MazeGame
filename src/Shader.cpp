@@ -139,13 +139,17 @@ void Shader::setTexture(int textureLayer, const std::string& textureIndex)
 
 void Shader::setTexture(int textureLayer, const std::string& textureIndex, std::map<std::string, std::shared_ptr<Texture>>& textureList)
 {  
-    if (textureLayer > 1){std::cout << "invalid textureLayer Function: setTexture" << std::endl; return;}
+    if (textureLayer > 3){std::cout << "invalid textureLayer Function: setTexture" << std::endl; return;}
 
     this->BindShader();
     glActiveTexture(GL_TEXTURE0 + textureLayer);
     std::string ourTexture = "ourTexture" + std::to_string(textureLayer);
     this->setUniformv1i(ourTexture.c_str(), textureLayer);
-    glBindTexture(GL_TEXTURE_2D, textureList[textureIndex].get()->getTextureID());
+    TextureUnit temp;
+    temp.layer = textureLayer;
+    temp.locationID = (textureList[textureIndex].get()->getTextureID());
+    m_shadertextures.push_back(temp);
+    glBindTexture(GL_TEXTURE_2D, temp.locationID);
 }
 
 void Shader::loadShader(const std::string& newIndex, const std::string& filePath)
@@ -159,4 +163,15 @@ void Shader::loadShader(const std::string& newIndex, const std::string& filePath
     std::shared_ptr<Shader> TexturePointer = shaderList[newIndex];
     Shaders shadersrc = Shader::getSahderSrc(filePath);
     TexturePointer.get()->CreateShader(shadersrc.vertex, shadersrc.framgent);
+}
+
+void Shader::bindTextures()
+{
+    for (int i = 0; i < m_shadertextures.size(); i++)
+    {
+        TextureUnit* texture = &m_shadertextures[i];
+        glActiveTexture(GL_TEXTURE0 + texture->layer);
+        glBindTexture(GL_TEXTURE_2D, texture->locationID);
+    }
+
 }

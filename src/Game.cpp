@@ -27,14 +27,22 @@ void Game::gameInit()
 
 	Texture::loadTexture("CubeTex", "res/Textures/container.jpg");
 	Texture::loadTexture("CoffeeTex", "res/Textures/Coffee.png");
+	Texture::loadTexture("BrassTex", "res/Textures/Brass.jpg");
+	Texture::loadTexture("ChopperTex", "res/Textures/Chopper.jpg");
+	Texture::loadTexture("StealTex", "res/Textures/Steal.jpg");
 	//Shaders here
 
 	Shader::loadShader("cubeShader", "res/Shaders/Basic.shader");
 	m_shaders["cubeShader"].get()->setTexture(0, "CubeTex");
 	m_shaders["cubeShader"].get()->setTexture(1, "CoffeeTex");
+
 	Shader::loadShader("tankShader","res/Shaders/Default.shader");
 	m_shaders["tankShader"].get()->setTexture(0, "CubeTex");
 
+	Shader::loadShader("bulletShader","res/Shaders/Default.shader");
+	m_shaders["bulletShader"].get()->setTexture(0, "BrassTex");
+	m_shaders["bulletShader"].get()->setTexture(1, "ChopperTex");
+	m_shaders["bulletShader"].get()->setTexture(2, "StealTex");
 	//Model loading here since it is the init
 	static Model tank("res/Models/tank.obj");
 	m_objects["tankobj"] = std::make_shared<StaticObject>();
@@ -44,13 +52,6 @@ void Game::gameInit()
 	RenderManger::addToRenderList(m_objects["tankobj"].get());
 
 	static Model cube("res/Models/cube.obj");
-	/*
-	m_objects["cubeObj"] = std::make_shared<StaticObject>();
-	m_objects["cubeObj"].get()->setModel(cube);
-	m_objects["cubeObj"].get()->setShader("tankShader");
-	m_objects["cubeObj"].get()->setPosition(glm::vec3(0.0f, 0.0f, -10.0f));
-	RenderManger::addToRenderList(m_objects["cubeObj"].get());
-	*/
 	
 	for (int i = 0; i < 10; i++)
 	{	
@@ -68,8 +69,15 @@ void Game::gameInit()
 			}
 		}
 	}
-	
 
+	static Model bullet("res/Models/50_Barrett.obj");
+	m_objects["bulletobj"] = std::make_shared<StaticObject>();
+	m_objects["bulletobj"].get()->setModel(bullet);
+	m_objects["bulletobj"].get()->setShader("bulletShader");
+	m_objects["bulletobj"].get()->setPosition(glm::vec3(0.0f, 0.0f, -50.0f));
+	m_objects["bulletobj"].get()->setScale(glm::vec3(0.01f, 0.01f, 0.01f));
+	RenderManger::addToRenderList(m_objects["bulletobj"].get());
+	m_projectiles.setProjectile(m_objects["bulletobj"].get());
 	//object.setModel();
 
 
@@ -142,11 +150,21 @@ void Game::gameLoop()
 void Game::render()
 {	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	
+	
+	
 	//Render here
 	for ( auto& Object : RenderManger::m_renderList)
 	{
 		Object->updateTransform();
-		Object->updateMVP(m_shaders["tankShader"].get(), m_perspective, m_cameraView);
+		Object->updateMVP(m_perspective, m_cameraView);
+		Object->draw();
+	}
+	for (auto& Object : RenderManger::m_renderListProjectiles)
+	{
+		Object->updateTransform();
+		Object->updateMVP(m_perspective, m_cameraView);
 		Object->draw();
 	}
 	
@@ -182,6 +200,8 @@ void Game::cameraUpdate(const CameraMode mode)
 void Game::update()
 {
 	cameraUpdate(CameraMode::FREECAM);
+	m_projectiles.spawnProjectile(m_camera.getCameraFront(), m_camera.getCameraPos(), m_window);
+	m_projectiles.projectileUpdate();
 }
 
 bool Game::isInsideMazeWalls(glm::vec3 pos)

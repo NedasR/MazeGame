@@ -29,12 +29,19 @@ struct CachedUniform
     unsigned int locationID;
 };
 
+struct TextureUnit
+{
+    int layer;
+    unsigned int locationID;
+};
+
 
 class Shader
 {
 private:
     unsigned int m_shaderID;
     std::vector<CachedUniform> m_Cache;
+    std::vector<TextureUnit> m_shadertextures;
 public:
     Shader();
     ~Shader();
@@ -69,4 +76,5 @@ public:
 
     static void loadShader(const std::string& newIndex, const std::string& filePath, std::map<std::string, std::shared_ptr<Shader>>& shaderList);
 
+    void bindTextures();
 };

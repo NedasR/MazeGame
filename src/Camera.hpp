@@ -28,11 +28,15 @@ class Camera
 
 	inline void setCameraPos(glm::vec3& Pos) { m_cameraPostion = Pos; }
 
+	inline glm::vec3 getCameraPos() { return m_cameraPostion; }
+
 	glm::mat4 freeCam(GLFWwindow* window);
 
 	inline const glm::vec3 getCameraFront() const { return m_cameraFront; }
 	
 	glm::mat4 setPerspective(const float fov,const float screenHeight,const float screenWidth,const float nearPlane,const float FarPlane);
+
+	inline float getPitch(){return m_pitch;}
 };
 
 void mousePostioncallback(GLFWwindow* window);

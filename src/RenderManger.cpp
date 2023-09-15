@@ -2,6 +2,8 @@
 
 std::vector<StaticObject*> RenderManger::m_renderList;
 
+std::vector<StaticObject*> RenderManger::m_renderListProjectiles;
+
 RenderManger::RenderManger()
 {
 

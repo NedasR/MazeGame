@@ -16,10 +16,11 @@ void StaticObject::setRotation(glm::vec3 rotateAxis, float angle)
 
 void StaticObject::setPosition(glm::vec3 Pos)
 {
+	m_position = Pos;
 	m_translate = glm::translate(glm::mat4(1.0f), Pos);
 }
 
-void StaticObject::setScale(glm::vec3& scale)
+void StaticObject::setScale(glm::vec3 scale)
 {
 
 	m_scale = glm::scale(glm::mat4(1.0f), scale);
@@ -35,9 +36,22 @@ void StaticObject::setShader(const std::string& shaderIndex, std::map<std::strin
 	m_shader = shaderList[shaderIndex];
 }
 
+glm::vec3 StaticObject::getPosition()
+{
+	return m_position;
+}
+
 void StaticObject::updateTransform()
 {
 	m_transform = m_translate * m_rotation * m_scale;
+}
+
+void StaticObject::updateMVP(glm::mat4 prespective, glm::mat4 view)
+{
+	m_shader->BindShader();
+	m_shader->setUniformvmatrix4f("model", m_transform);
+	m_shader->setUniformvmatrix4f("prespective", prespective);
+	m_shader->setUniformvmatrix4f("view", view);
 }
 
 StaticObject::StaticObject()
