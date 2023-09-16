@@ -8,12 +8,13 @@ std::vector<std::vector<char>> MazeGeneration::backtrackingGeneration(int width,
 {
 	std::vector<std::vector<char>> maze;
 	maze.resize(height);
-	for (int column = 0; column < height; column++)
+	for (int row = 0; row < height; row++)
 	{
-		maze[column].resize(width);
-		for (int row = 0; row < width; row++)
+		maze[row].resize(width);
+		for (int column = 0; column < width; column++)
 		{
-			maze[column][row] = '#';
+			//  maze[ y ][   x  ]
+			maze[row][column] = '#';
 		}
 	}
 	glm::vec2 head;
@@ -45,41 +46,41 @@ std::vector<std::vector<char>> MazeGeneration::backtrackingGeneration(int width,
 		directionsAvail.directions[3] = true;
 
 		// these four if stetement checks which directions are valid
-		if (!(head.y + 2 > height || head.y + 2 < 0))
+		if (head.y + 2 >= height)
 		{
-			if (maze[head.y + 2][head.x] == '0')
-			{
-				directionsAvail.directions[0] = false;
-			}
-		} 
-		else { directionsAvail.directions[(int)directions::up - 1] = false;}
-
-		if (head.x - 2 > height || head.x - 2 < 0)
-		{
-			if (maze[head.y][head.x - 2] == '0')
-			{
-				directionsAvail.directions[1] = false;
-			}
+			directionsAvail.directions[0] = false;
 		}
-		else { directionsAvail.directions[(int)directions::left - 1] = false; }
-
-		if (head.y - 2 > height || head.y - 2 < 0)
+		else if (maze[head.y + 2][head.x] == '0')
 		{
-			if (maze[head.y - 2][head.x ] == '0')
-			{
-				directionsAvail.directions[2] = false;
-			}
-		} 
-		else { directionsAvail.directions[(int)directions::down - 1] = false; }
+			directionsAvail.directions[0] = false;
+		}
 
-		if (head.x + 2 > height || head.x + 2 < 0)
+		if (head.x - 2 < 0)
 		{
-			if (maze[head.y][head.x + 2] == '0')
-			{
-				directionsAvail.directions[3] = false;
-			}
-		} 
-		else { directionsAvail.directions[(int)directions::right -1] = false; }
+			directionsAvail.directions[1] = false;
+		}
+		else if (maze[head.y][head.x - 2] == '0')
+		{
+			directionsAvail.directions[1] = false;
+		}
+
+		if (head.y - 2 < 0)
+		{
+			directionsAvail.directions[2] = false;
+		}
+		else if (maze[head.y - 2][head.x] == '0')
+		{
+			directionsAvail.directions[2] = false;
+		}
+
+		if (head.x + 2 > height)
+		{
+			directionsAvail.directions[3] = false;
+		}
+		else if (maze[head.y][head.x + 2] == '0')
+		{
+			directionsAvail.directions[3] = false;
+		}
 
 
 		//this code chooses which available direction to use
@@ -95,44 +96,43 @@ std::vector<std::vector<char>> MazeGeneration::backtrackingGeneration(int width,
 				direction = 0;
 				break;
 			}
-		}
-		while (!directionsAvail.directions[direction -1]);
+		} while (!directionsAvail.directions[direction - 1]);
 
 		switch (static_cast<directions>(direction))
 		{
-			case directions::up:
-			{
-				maze[head.y + 1][head.x] = '0';
-				maze[head.y + 2][head.x] = '0';
-				processNodes.push_front(glm::vec2(head.y + 2, head.x));
-				break;
-			}
-			case directions::left:
-			{
-				maze[head.y][head.x - 1] = '0';
-				maze[head.y][head.x - 2] = '0';
-				processNodes.push_front(glm::vec2(head.y, head.x - 2));
-				break;
-			}
-			case directions::down:
-			{
-				maze[head.y - 1][head.x] = '0';
-				maze[head.y - 2][head.x] = '0';
-				processNodes.push_front(glm::vec2(head.y - 2, head.x));
-				break;
-			}
-			case directions::right:
-			{
-				maze[head.y][head.x + 1] = '0';
-				maze[head.y][head.x + 2] = '0';
-				processNodes.push_front(glm::vec2(head.y, head.x + 2));
-				break;
-			}
-			case directions::NONE:
-			{
-				processNodes.pop_front();
-				break;
-			} 
+		case directions::up:
+		{
+			maze[head.y + 1][head.x] = '0';
+			maze[head.y + 2][head.x] = '0';
+			processNodes.push_front(glm::vec2(head.y + 2, head.x));
+			break;
+		}
+		case directions::left:
+		{
+			maze[head.y][head.x - 1] = '0';
+			maze[head.y][head.x - 2] = '0';
+			processNodes.push_front(glm::vec2(head.y, head.x - 2));
+			break;
+		}
+		case directions::down:
+		{
+			maze[head.y - 1][head.x] = '0';
+			maze[head.y - 2][head.x] = '0';
+			processNodes.push_front(glm::vec2(head.y - 2, head.x));
+			break;
+		}
+		case directions::right:
+		{
+			maze[head.y][head.x + 1] = '0';
+			maze[head.y][head.x + 2] = '0';
+			processNodes.push_front(glm::vec2(head.y, head.x + 2));
+			break;
+		}
+		case directions::NONE:
+		{
+			processNodes.pop_front();
+			break;
+		}
 		}
 	}
 	return maze;
