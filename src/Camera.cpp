@@ -1,7 +1,9 @@
 #include "Camera.hpp"
 #include <math.h>
 #include <iostream>
-extern char map[10][10];
+#include <vector>
+
+extern std::vector<std::vector<char>> maze;
 
 bool isInsideMazeWalls(glm::vec3 pos)
 {
@@ -13,7 +15,8 @@ bool isInsideMazeWalls(glm::vec3 pos)
 	int x = pos.x;
 	int z = pos.z;
 	std::cout << x << " " << z << std::endl;
-	//
+	//this avoids truncation since if number is -0.675f it will get truncated into a 0 and 
+	//it willthink that there is a wall when ther is not
 	if (pos.z < 0 || pos.x < 0)
 	{
 		return false;
@@ -29,7 +32,7 @@ bool isInsideMazeWalls(glm::vec3 pos)
 		return false;
 	}
 
-	if (map[x][z] == '#')
+	if (maze[x][z] == '#')
 	{
 		return true;
 	}

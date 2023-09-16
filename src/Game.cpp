@@ -1,5 +1,6 @@
 #include "Game.hpp"
 #include "RenderManger.hpp"
+#include "MazeGeneration.hpp"
 
 std::map<std::string, std::shared_ptr<Shader>> Game::m_shaders;
 std::map<std::string, std::shared_ptr<Texture>> Game::m_textures;
@@ -14,6 +15,7 @@ char map[10][10] = { '#', '#', '#', '#', '#', '#', '#', '#', '#', '#',
 					 '#', '#', '0', '#', '#', '0', '0', '#', '0', '#',
 					 '#', '0', '0', '0', '0', '#', '#', '#', '0', '0',
 					 '#', '#', '#', '#', '#', '#', '#', '#', '#', '#' };
+std::vector<std::vector<char>> maze;
 
 void Game::gameInit()
 {
@@ -53,11 +55,12 @@ void Game::gameInit()
 
 	static Model cube("res/Models/cube.obj");
 	
+	maze = MazeGeneration::backtrackingGeneration(10,10);
 	for (int i = 0; i < 10; i++)
 	{	
 		for (int y = 0; y < 10; y++)
 		{
-			if (map[i][y] == '#')
+			if (maze[i][y] == '#')
 			// memory leak
 			{
 				StaticObject* sobj = new StaticObject();

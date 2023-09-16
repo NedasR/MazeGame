@@ -137,6 +137,7 @@
     <ClCompile Include="src\ElementArray.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MazeGeneration.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Object.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="src\Camera.hpp" />
     <ClInclude Include="src\ElementArray.hpp" />
     <ClInclude Include="src\Game.hpp" />
+    <ClInclude Include="src\MazeGeneration.hpp" />
     <ClInclude Include="src\Mesh.hpp" />
     <ClInclude Include="src\Model.hpp" />
     <ClInclude Include="src\Object.hpp" />
