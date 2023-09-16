@@ -22,9 +22,7 @@ void Projectile::projectileUpdate()
 			current.z >= 100.0f || current.z <= -100.0f)
 		{
 			m_projectiles.erase(m_projectiles.begin() + i);
-			std::cout << m_projectiles.size() << std::endl;
 			RenderManger::m_renderListProjectiles.erase(RenderManger::m_renderListProjectiles.begin() + i);
-			std::cout << RenderManger::m_renderListProjectiles.size() << std::endl;
 			// need to remove from render list
 			//i--;
 			continue;

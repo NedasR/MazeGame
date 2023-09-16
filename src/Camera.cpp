@@ -1,23 +1,30 @@
 #include "Camera.hpp"
 #include <math.h>
-
+#include <iostream>
 extern char map[10][10];
 
 bool isInsideMazeWalls(glm::vec3 pos)
 {
+	std::cout << pos.x << " "<< pos.z << std::endl;
 	pos.x += 1.0f;
 	pos.z += 1.0f;
 	pos.x /= 2.0f;
 	pos.z /= 2.0f;
 	int x = pos.x;
 	int z = pos.z;
-
+	std::cout << x << " " << z << std::endl;
+	//
+	if (pos.z < 0 || pos.x < 0)
+	{
+		return false;
+	}
+	//height for the cubes of the maze so we can fly above the maze and under it
 	if (pos.y < -1 || pos.y > 1)
 	{
 		return false;
 	}
 
-	if (x < 0 || x >= 10 || z < 0 ||z >= 10)
+	if (x < 0|| x >= 10 || z < 0||z >= 10)
 	{
 		return false;
 	}
@@ -109,6 +116,7 @@ glm::mat4 Camera::freeCam(GLFWwindow* window)
 	{
 		m_cameraPostion = lastPos;
 	}
+	//lockes it at y postion 0
 	m_cameraPostion.y = lastPos.y;
 
 	return glm::lookAt(m_cameraPostion, m_cameraPostion + m_cameraFront, m_upPos);
