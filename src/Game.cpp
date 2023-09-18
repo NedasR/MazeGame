@@ -55,10 +55,11 @@ void Game::gameInit()
 
 	static Model cube("res/Models/cube.obj");
 	
-	maze = MazeGeneration::backtrackingGeneration(10,10);
-	for (int i = 0; i < 10; i++)
+	maze = MazeGeneration::backtrackingGeneration(21,21);
+
+	for (int i = 0; i < 21; i++)
 	{	
-		for (int y = 0; y < 10; y++)
+		for (int y = 0; y < 21; y++)
 		{
 			if (maze[i][y] == '#')
 			// memory leak

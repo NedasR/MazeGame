@@ -1,7 +1,6 @@
 #include "MazeGeneration.hpp"
 #include "Vendors/glm/glm.hpp"
-#include <deque>
-#include <ctime>
+#include <stack>
 #include <iostream>
 
 std::vector<std::vector<char>> MazeGeneration::backtrackingGeneration(int width, int height)
@@ -18,138 +17,134 @@ std::vector<std::vector<char>> MazeGeneration::backtrackingGeneration(int width,
 		}
 	}
 	glm::vec2 head;
-
+	//std::srand((unsigned int)std::time(nullptr));
 	head.x = std::rand() % width;
 	head.y = std::rand() % height;
+	head.x = 1;
+	head.y = 1;
+	std::cout << head.y << " y << and >> x " << head.x << std::endl;
 
-	std::deque<glm::vec2> processNodes;
-	processNodes.push_front(head);
+	std::stack<glm::ivec2> processNodes;
+	processNodes.push(head);
+
+	maze[0][1] = '0';
+	maze[height -1][width - 2] = '0';
 
 	directionsAvailable directionsAvail;
-	std::srand(std::time(nullptr));
 	int direction = 0;
+
+	int up = 2;
+	int left = -2;
+	int down = -2;
+	int right = 2;
+
+	std::vector<int> chooseDirection;
+
+
 	while (!processNodes.empty())
 	{
-		head = processNodes.front();
+		head = processNodes.top();
 
-		if (head.x > width || head.x < 0 ||
-			head.y > height || head.y < 0)
+		directionsAvail.dir[0] = false;
+		directionsAvail.dir[1] = false;
+		directionsAvail.dir[2] = false;
+		directionsAvail.dir[3] = false;
+		directionsAvail.dir[4] = false;
+
+		if (head.x + 2 >= width)
 		{
-			processNodes.pop_front();
-			continue;
+		}
+		else if (maze[head.y][head.x + 2] == '#')
+		{
+			directionsAvail.dir[4] = true;
+			chooseDirection.push_back(4);
 		}
 
-		//directionsAvail = directionsAvailable(true);
-		directionsAvail.directions[0] = true;
-		directionsAvail.directions[1] = true;
-		directionsAvail.directions[2] = true;
-		directionsAvail.directions[3] = true;
-
-		// these four if stetement checks which directions are valid
 		if (head.y + 2 >= height)
 		{
-			directionsAvail.directions[0] = false;
 		}
-		else if (maze[head.y + 2][head.x] == '0')
+		else if (maze[head.y + 2][head.x] == '#')
 		{
-			directionsAvail.directions[0] = false;
+			directionsAvail.dir[3] = true;
+			chooseDirection.push_back(3);
 		}
 
 		if (head.x - 2 < 0)
 		{
-			directionsAvail.directions[1] = false;
 		}
-		else if (maze[head.y][head.x - 2] == '0')
+		else if (maze[head.y][head.x - 2] == '#')
 		{
-			directionsAvail.directions[1] = false;
+			directionsAvail.dir[2] = true;
+			chooseDirection.push_back(2);
 		}
 
 		if (head.y - 2 < 0)
 		{
-			directionsAvail.directions[2] = false;
 		}
-		else if (maze[head.y - 2][head.x] == '0')
+		else if (maze[head.y - 2][head.x] == '#')
 		{
-			directionsAvail.directions[2] = false;
-		}
-
-		if (head.x + 2 > height)
-		{
-			directionsAvail.directions[3] = false;
-		}
-		else if (maze[head.y][head.x + 2] == '0')
-		{
-			directionsAvail.directions[3] = false;
+			directionsAvail.dir[1] = true;
+			chooseDirection.push_back(1);
 		}
 
-
-		//this code chooses which available direction to use
-		do
+		if (!directionsAvail.dir[1] &&
+			!directionsAvail.dir[2] &&
+			!directionsAvail.dir[3] &&
+			!directionsAvail.dir[4])
 		{
-			direction = std::rand() % 5 + 1;
-
-			if (!directionsAvail.directions[0] &&
-				!directionsAvail.directions[1] &&
-				!directionsAvail.directions[2] &&
-				!directionsAvail.directions[3])
-			{
-				direction = 0;
-				break;
+			direction = 0;
+		}
+		else 
+		{
+			if (chooseDirection.size() == 1)
+			 {
+				direction = chooseDirection[0];
 			}
-		} while (!directionsAvail.directions[direction - 1]);
-
+			else
+			{
+				direction = chooseDirection[std::rand() % chooseDirection.size()];
+			}
+			chooseDirection.clear();
+		}
+		maze[head.y][head.x] = '0';
 		switch (static_cast<directions>(direction))
 		{
+		case directions::NONE:
+		{
+			processNodes.pop();
+			break;
+		}
 		case directions::up:
 		{
-			maze[head.y + 1][head.x] = '0';
-			maze[head.y + 2][head.x] = '0';
-			processNodes.push_front(glm::vec2(head.y + 2, head.x));
+			maze[head.y - 1][head.x] = '0';
+			maze[head.y - 2][head.x] = '0';
+			processNodes.push(glm::ivec2(head.x, head.y - 2));
 			break;
 		}
 		case directions::left:
 		{
 			maze[head.y][head.x - 1] = '0';
 			maze[head.y][head.x - 2] = '0';
-			processNodes.push_front(glm::vec2(head.y, head.x - 2));
+			processNodes.push(glm::ivec2(head.x - 2, head.y));
 			break;
 		}
 		case directions::down:
 		{
-			maze[head.y - 1][head.x] = '0';
-			maze[head.y - 2][head.x] = '0';
-			processNodes.push_front(glm::vec2(head.y - 2, head.x));
+			maze[head.y + 1][head.x] = '0';
+			maze[head.y + 2][head.x] = '0';
+			processNodes.push(glm::ivec2(head.x, head.y + 2));
 			break;
 		}
 		case directions::right:
 		{
 			maze[head.y][head.x + 1] = '0';
 			maze[head.y][head.x + 2] = '0';
-			processNodes.push_front(glm::vec2(head.y, head.x + 2));
-			break;
-		}
-		case directions::NONE:
-		{
-			processNodes.pop_front();
+			processNodes.push(glm::ivec2(head.x + 2, head.y));
+
 			break;
 		}
 		}
 	}
+
 	return maze;
-}
-
-directionsAvailable::directionsAvailable()
-{
-	directions[0] = true;
-	directions[1] = true;
-	directions[2] = true;
-	directions[3] = true;
-}
-
-directionsAvailable::directionsAvailable(bool set)
-{
-	directions[0] = set;
-	directions[1] = set;
-	directions[2] = set;
-	directions[3] = set;
 }

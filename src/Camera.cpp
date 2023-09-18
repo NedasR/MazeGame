@@ -7,14 +7,12 @@ extern std::vector<std::vector<char>> maze;
 
 bool isInsideMazeWalls(glm::vec3 pos)
 {
-	std::cout << pos.x << " "<< pos.z << std::endl;
 	pos.x += 1.0f;
 	pos.z += 1.0f;
 	pos.x /= 2.0f;
 	pos.z /= 2.0f;
 	int x = pos.x;
 	int z = pos.z;
-	std::cout << x << " " << z << std::endl;
 	//this avoids truncation since if number is -0.675f it will get truncated into a 0 and 
 	//it willthink that there is a wall when ther is not
 	if (pos.z < 0 || pos.x < 0)
@@ -120,7 +118,7 @@ glm::mat4 Camera::freeCam(GLFWwindow* window)
 		m_cameraPostion = lastPos;
 	}
 	//lockes it at y postion 0
-	m_cameraPostion.y = lastPos.y;
+	//m_cameraPostion.y = lastPos.y;
 
 	return glm::lookAt(m_cameraPostion, m_cameraPostion + m_cameraFront, m_upPos);
 }

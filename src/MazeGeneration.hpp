@@ -14,11 +14,7 @@ struct directionsAvailable
 {
 	public:
 
-	bool directions[4];
-
-	directionsAvailable();
-
-	directionsAvailable(bool set);
+	bool dir[5];
 };
 
 class MazeGeneration
