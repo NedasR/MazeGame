@@ -5,16 +5,6 @@
 std::map<std::string, std::shared_ptr<Shader>> Game::m_shaders;
 std::map<std::string, std::shared_ptr<Texture>> Game::m_textures;
 
-char map[10][10] = { '#', '#', '#', '#', '#', '#', '#', '#', '#', '#',
-					 '0', '0', '0', '#', '0', '0', '0', '#', '#', '#',
-					 '#', '#', '0', '0', '#', '#', '0', '#', '0', '#',
-					 '#', '#', '0', '#', '0', '0', '0', '0', '0', '#',
-					 '#', '#', '0', '#', '0', '0', '#', '#', '0', '#',
-					 '#', '0', '0', '0', '0', '0', '#', '#', '0', '#',
-					 '#', '#', '0', '#', '#', '0', '#', '0', '0', '#',
-					 '#', '#', '0', '#', '#', '0', '0', '#', '0', '#',
-					 '#', '0', '0', '0', '0', '#', '#', '#', '0', '0',
-					 '#', '#', '#', '#', '#', '#', '#', '#', '#', '#' };
 std::vector<std::vector<char>> maze;
 
 void Game::gameInit()
@@ -55,11 +45,11 @@ void Game::gameInit()
 
 	static Model cube("res/Models/cube.obj");
 	
-	maze = MazeGeneration::backtrackingGeneration(21,21);
+	maze = MazeGeneration::backtrackingGeneration(41,41);
 
-	for (int i = 0; i < 21; i++)
+	for (int i = 0; i < 41; i++)
 	{	
-		for (int y = 0; y < 21; y++)
+		for (int y = 0; y < 41; y++)
 		{
 			if (maze[i][y] == '#')
 			// memory leak
@@ -217,10 +207,22 @@ bool Game::isInsideMazeWalls(glm::vec3 pos)
 	int x = pos.x;
 	int z = pos.z;
 
-	if (map[x][z] == '#')
+	if (maze[x][z] == '#')
 	{
 		return true;
 	}
+
+
+	return false;
+}
+
+bool Game::IsObjectInFrustum(glm::vec3 pos)
+{
+// to do for preformance
+
+
+
+
 
 
 	return false;

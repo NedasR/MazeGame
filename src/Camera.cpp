@@ -25,7 +25,7 @@ bool isInsideMazeWalls(glm::vec3 pos)
 		return false;
 	}
 
-	if (x < 0|| x >= 10 || z < 0||z >= 10)
+	if (x < 0|| x >= maze.size() || z < 0 || z >= maze.size())
 	{
 		return false;
 	}
