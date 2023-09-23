@@ -215,15 +215,3 @@ bool Game::isInsideMazeWalls(glm::vec3 pos)
 
 	return false;
 }
-
-bool Game::IsObjectInFrustum(glm::vec3 pos)
-{
-// to do for preformance
-
-
-
-
-
-
-	return false;
-}
