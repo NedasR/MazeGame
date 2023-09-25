@@ -133,12 +133,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\AI.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\ElementArray.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MazeGeneration.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
+    <ClCompile Include="src\Mob.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\Projectile.cpp" />
@@ -157,11 +159,13 @@
     <None Include="res\Shaders\Default.shader" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AI.hpp" />
     <ClInclude Include="src\Camera.hpp" />
     <ClInclude Include="src\ElementArray.hpp" />
     <ClInclude Include="src\Game.hpp" />
     <ClInclude Include="src\MazeGeneration.hpp" />
     <ClInclude Include="src\Mesh.hpp" />
+    <ClInclude Include="src\Mob.hpp" />
     <ClInclude Include="src\Model.hpp" />
     <ClInclude Include="src\Object.hpp" />
     <ClInclude Include="src\Projectile.hpp" />

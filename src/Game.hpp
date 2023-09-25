@@ -59,7 +59,7 @@ class Game
 
 /*
 to do list
-projectiles
+--projectiles done but also need bullets to intrect with mobs and other objects
 minmap
 mobs
 patrol route ai
