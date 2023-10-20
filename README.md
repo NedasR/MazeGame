@@ -5,9 +5,9 @@ The 3D maze game and game engine code still work in progress.
 This game is made with OpenGL, Assimp, stb_Image  
 
 ## A Few Features
--- has easy model loading  
--- You can shoot projectiles  
--- random maze generator  
--- easy Texture loading  
--- Shader loading  
--- StaticObject  
++ has easy model loading  
++ You can shoot projectiles  
++ random maze generator  
++ easy Texture loading  
++ Shader loading  
++ StaticObject  
